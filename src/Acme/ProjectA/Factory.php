@@ -10,15 +10,16 @@ class Factory {
 		// Let's create a simple container that provides 2 entries: 'a' and 'c'.
 		// 'a' has an external dependency on a 'b' object that is not part of this project.
 		$pimple = new PimpleInterop($rootContainer);
-		$pimple['a']->share(function(ContainerInterface $container) {
+		$pimple['a'] = $pimple->share(function(ContainerInterface $container) {
 			$a = new \stdClass();
 			$a->b = $container->get('b');
 			return $a;
 		});
-		$pimple['c']->share(function(ContainerInterface $container) {
+		$pimple['c'] = $pimple->share(function(ContainerInterface $container) {
 			$c = new \stdClass();
 			$c->hello = 'world';
 			return $c;
 		});
+		return $pimple;
 	}
 }
